@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Offer Letter Dashboard</title>
+
+    <style>
+
+        body{
+            font-family: Arial, sans-serif;
+            margin:30px;
+            background:#f4f6f9;
+        }
+
+        h1{
+            text-align:center;
+        }
+
+        .btn{
+            background:#007bff;
+            color:white;
+            padding:10px 15px;
+            text-decoration:none;
+            border-radius:5px;
+        }
+
+        .offer-btn{
+            background:#28a745;
+            color:white;
+            padding:8px 12px;
+            text-decoration:none;
+            border-radius:5px;
+            display:inline-block;
+            margin-bottom:5px;
+        }
+
+        .cert-btn{
+            background:#6f42c1;
+            color:white;
+            padding:8px 12px;
+            text-decoration:none;
+            border-radius:5px;
+            display:inline-block;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            background:white;
+            margin-top:20px;
+        }
+
+        th{
+            background:#007bff;
+            color:white;
+        }
+
+        th,td{
+            border:1px solid #ddd;
+            padding:10px;
+            text-align:left;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<h1>Automated Offer Letter & Certificate System</h1>
+
+<a href="/add" class="btn">
+    Add Candidate
+</a>
+
+<br><br>
+
+<table>
+
+<tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>College</th>
+    <th>Role</th>
+    <th>Joining Date</th>
+    <th>Company</th>
+    <th>Stipend</th>
+    <th>Duration</th>
+    <th>Actions</th>
+</tr>
+
+{% for candidate in candidates %}
+
+<tr>
+
+    <td>{{ candidate[0] }}</td>
+    <td>{{ candidate[1] }}</td>
+    <td>{{ candidate[2] }}</td>
+    <td>{{ candidate[3] }}</td>
+    <td>{{ candidate[4] }}</td>
+    <td>{{ candidate[5] }}</td>
+    <td>{{ candidate[6] }}</td>
+    <td>{{ candidate[7] }}</td>
+    <td>{{ candidate[8] }}</td>
+
+    <td>
+
+        <a
+            href="/generate-offer/{{ candidate[0] }}"
+            class="offer-btn">
+            Offer Letter
+        </a>
+
+        <br>
+
+        <a
+            href="/generate-certificate/{{ candidate[0] }}"
+            class="cert-btn">
+            Certificate
+        </a>
+
+    </td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</body>
+</html>

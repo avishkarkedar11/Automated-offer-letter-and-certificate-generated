@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Add Candidate</title>
+
+    <style>
+
+        body{
+            font-family:Arial, sans-serif;
+            margin:40px;
+        }
+
+        input{
+            width:350px;
+            padding:10px;
+            margin-bottom:15px;
+        }
+
+        button{
+            background:#28a745;
+            color:white;
+            padding:10px 20px;
+            border:none;
+            cursor:pointer;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<h1>Add Candidate</h1>
+
+<form method="POST">
+
+    <label>Full Name</label><br>
+    <input type="text" name="full_name" required><br>
+
+    <label>Email</label><br>
+    <input type="email" name="email" required><br>
+
+    <label>College</label><br>
+    <input type="text" name="college" required><br>
+
+    <label>Role Name</label><br>
+    <input type="text" name="role_name" required><br>
+
+    <label>Joining Date</label><br>
+    <input type="date" name="joining_date" required><br>
+
+    <label>Company Name</label><br>
+    <input type="text" name="company_name" required><br>
+
+    <label>Monthly Stipend</label><br>
+    <input type="text" name="stipend" required><br>
+
+    <label>Internship Duration</label><br>
+    <input type="text" name="duration" required><br>
+
+    <button type="submit">
+        Save Candidate
+    </button>
+
+</form>
+
+</body>
+</html>

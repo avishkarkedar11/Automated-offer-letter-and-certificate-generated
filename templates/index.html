@@ -8,57 +8,83 @@
 
         body{
             font-family: Arial, sans-serif;
-            margin:30px;
-            background:#f4f6f9;
+            margin: 30px;
+            background: #f4f6f9;
         }
 
         h1{
-            text-align:center;
+            text-align: center;
+            color: #333;
         }
 
         .btn{
-            background:#007bff;
-            color:white;
-            padding:10px 15px;
-            text-decoration:none;
-            border-radius:5px;
+            background: #007bff;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
         }
 
         .offer-btn{
-            background:#28a745;
-            color:white;
-            padding:8px 12px;
-            text-decoration:none;
-            border-radius:5px;
-            display:inline-block;
-            margin-bottom:5px;
+            background: #28a745;
+            color: white;
+            padding: 8px 12px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-bottom: 5px;
         }
 
         .cert-btn{
-            background:#6f42c1;
-            color:white;
-            padding:8px 12px;
-            text-decoration:none;
-            border-radius:5px;
-            display:inline-block;
+            background: #6f42c1;
+            color: white;
+            padding: 8px 12px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+
+        .edit-btn{
+            background: #ffc107;
+            color: black;
+            padding: 8px 12px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+
+        .delete-btn{
+            background: #dc3545;
+            color: white;
+            padding: 8px 12px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
         }
 
         table{
-            width:100%;
-            border-collapse:collapse;
-            background:white;
-            margin-top:20px;
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-top: 20px;
         }
 
         th{
-            background:#007bff;
-            color:white;
+            background: #007bff;
+            color: white;
         }
 
-        th,td{
-            border:1px solid #ddd;
-            padding:10px;
-            text-align:left;
+        th, td{
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        tr:nth-child(even){
+            background: #f9f9f9;
         }
 
     </style>
@@ -66,66 +92,85 @@
 </head>
 <body>
 
-<h1>Automated Offer Letter & Certificate System</h1>
+    <h1>Automated Offer Letter & Certificate System</h1>
 
-<a href="/add" class="btn">
-    Add Candidate
-</a>
+    <a href="/add" class="btn">
+        Add Candidate
+    </a>
 
-<br><br>
+    <br><br>
 
-<table>
+    <table>
 
-<tr>
-    <th>ID</th>
-    <th>Name</th>
-    <th>Email</th>
-    <th>College</th>
-    <th>Role</th>
-    <th>Joining Date</th>
-    <th>Company</th>
-    <th>Stipend</th>
-    <th>Duration</th>
-    <th>Actions</th>
-</tr>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>College</th>
+            <th>Role</th>
+            <th>Joining Date</th>
+            <th>Company</th>
+            <th>Stipend</th>
+            <th>Duration</th>
+            <th>Certificate ID</th>
+            <th>Actions</th>
+        </tr>
 
-{% for candidate in candidates %}
+        {% for candidate in candidates %}
 
-<tr>
+        <tr>
 
-    <td>{{ candidate[0] }}</td>
-    <td>{{ candidate[1] }}</td>
-    <td>{{ candidate[2] }}</td>
-    <td>{{ candidate[3] }}</td>
-    <td>{{ candidate[4] }}</td>
-    <td>{{ candidate[5] }}</td>
-    <td>{{ candidate[6] }}</td>
-    <td>{{ candidate[7] }}</td>
-    <td>{{ candidate[8] }}</td>
+            <td>{{ candidate[0] }}</td>
+            <td>{{ candidate[1] }}</td>
+            <td>{{ candidate[2] }}</td>
+            <td>{{ candidate[3] }}</td>
+            <td>{{ candidate[4] }}</td>
+            <td>{{ candidate[5] }}</td>
+            <td>{{ candidate[6] }}</td>
+            <td>{{ candidate[7] }}</td>
+            <td>{{ candidate[8] }}</td>
+            <td>{{ candidate[9] }}</td>
 
-    <td>
+            <td>
 
-        <a
-            href="/generate-offer/{{ candidate[0] }}"
-            class="offer-btn">
-            Offer Letter
-        </a>
+                <a
+                    href="/generate-offer/{{ candidate[0] }}"
+                    class="offer-btn">
+                    Offer Letter
+                </a>
 
-        <br>
+                <br>
 
-        <a
-            href="/generate-certificate/{{ candidate[0] }}"
-            class="cert-btn">
-            Certificate
-        </a>
+                <a
+                    href="/generate-certificate/{{ candidate[0] }}"
+                    class="cert-btn">
+                    Certificate
+                </a>
 
-    </td>
+                <br>
 
-</tr>
+                <a
+                    href="/edit/{{ candidate[0] }}"
+                    class="edit-btn">
+                    Edit
+                </a>
 
-{% endfor %}
+                <br>
 
-</table>
+                <a
+                    href="/delete/{{ candidate[0] }}"
+                    class="delete-btn"
+                    onclick="return confirm('Are you sure you want to delete this candidate?')">
+                    Delete
+                </a>
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
 
 </body>
 </html>

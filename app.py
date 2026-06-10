@@ -6,8 +6,19 @@ import qrcode
 from PIL import Image
 import smtplib
 from email.message import EmailMessage
+import pandas as pd
+from flask import session
+from flask import (
+    Flask,
+    render_template,
+    request,
+    redirect,
+    send_file,
+    session
+)
 
 app = Flask(__name__)
+app.secret_key = "HR_AUTOMATION_SECRET_KEY_2026"
 
 db_config = {
     "host": "localhost",
@@ -16,6 +27,144 @@ db_config = {
     "database": "offer_letter_system"
 }
 
+#login route
+@app.route("/login", methods=["GET", "POST"])
+def login():
+
+    if request.method == "POST":
+
+        email = request.form["email"]
+        password = request.form["password"]
+
+        conn = mysql.connector.connect(**db_config)
+        cursor = conn.cursor()
+
+        cursor.execute(
+            """
+            SELECT *
+            FROM admins
+            WHERE email=%s AND password=%s
+            """,
+            (email, password)
+        )
+
+        admin = cursor.fetchone()
+
+        cursor.close()
+        conn.close()
+
+        if admin:
+
+            session["admin"] = admin[1]
+
+            return redirect("/")
+
+        return render_template(
+            "login.html",
+            error="Invalid Email or Password"
+        )
+
+    return render_template("login.html")
+
+#home protection route
+@app.route("/")
+def home():
+
+    if "admin" not in session:
+        return redirect("/login")
+
+    conn = mysql.connector.connect(**db_config)
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM candidates")
+    candidates = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return render_template(
+        "index.html",
+        candidates=candidates
+    )
+ 
+ #logout route
+@app.route("/logout")
+def logout():
+
+    session.clear()
+
+    return redirect("/login")
+   
+#csv upload route
+@app.route("/upload-csv", methods=["GET", "POST"])
+def upload_csv():
+
+    if request.method == "POST":
+
+        file = request.files["csv_file"]
+
+        os.makedirs("uploads", exist_ok=True)
+
+        filepath = os.path.join(
+            "uploads",
+            file.filename
+        )
+
+        os.makedirs("uploads", exist_ok=True)
+
+        filepath = os.path.join(
+            "uploads",
+             file.filename
+        )
+
+        file.save(filepath)
+        
+        df = pd.read_csv(r"C:\Users\avish\Downloads\sample_candidates_upload.csv")
+
+        conn = mysql.connector.connect(**db_config)
+        cursor = conn.cursor()
+
+        for _, row in df.iterrows():
+
+            query = """
+            INSERT INTO candidates
+            (
+                full_name,
+                email,
+                college,
+                role_name,
+                joining_date,
+                company_name,
+                stipend,
+                duration
+            )
+            VALUES (%s,%s,%s,%s,%s,%s,%s,%s)
+            """
+
+            values = (
+                row["full_name"],
+                row["email"],
+                row["college"],
+                row["role_name"],
+                pd.to_datetime(
+                    row["joining_date"],
+                    dayfirst=True
+                ).strftime("%Y-%m-%d"),
+                row["company_name"],
+                row["stipend"],
+                row["duration"]
+            )
+
+            cursor.execute(query, values)
+
+        conn.commit()
+
+        cursor.close()
+        conn.close()
+
+        return redirect("/")
+
+    return render_template("upload_csv.html")
 
 # ==========================
 # HOME PAGE

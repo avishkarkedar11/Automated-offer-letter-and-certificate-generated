@@ -66,7 +66,7 @@ def login():
 
     return render_template("login.html")
 
-#home protection route
+#home protectionroute
 @app.route("/")
 def home():
 
@@ -170,7 +170,7 @@ def upload_csv():
 # HOME PAGE
 # ==========================
 @app.route("/")
-def home():
+def homepage():
 
     conn = mysql.connector.connect(**db_config)
     cursor = conn.cursor()

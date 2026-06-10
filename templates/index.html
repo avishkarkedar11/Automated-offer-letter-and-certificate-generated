@@ -2,7 +2,7 @@
 <html>
 <head>
 
-    <title>Offer Letter Dashboard</title>
+    <title>HR Automation Dashboard</title>
 
     <style>
 
@@ -25,6 +25,29 @@
             border-radius: 5px;
         }
 
+        table{
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-top: 20px;
+        }
+
+        th{
+            background: #007bff;
+            color: white;
+        }
+
+        th, td{
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        tr:nth-child(even){
+            background: #f9f9f9;
+        }
+
         .offer-btn{
             background: #28a745;
             color: white;
@@ -37,6 +60,16 @@
 
         .cert-btn{
             background: #6f42c1;
+            color: white;
+            padding: 8px 12px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+
+        .email-btn{
+            background: #17a2b8;
             color: white;
             padding: 8px 12px;
             text-decoration: none;
@@ -64,35 +97,12 @@
             display: inline-block;
         }
 
-        table{
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            margin-top: 20px;
-        }
-
-        th{
-            background: #007bff;
-            color: white;
-        }
-
-        th, td{
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-            vertical-align: top;
-        }
-
-        tr:nth-child(even){
-            background: #f9f9f9;
-        }
-
     </style>
 
 </head>
 <body>
 
-    <h1>Automated Offer Letter & Certificate System</h1>
+    <h1>HR Automation System</h1>
 
     <a href="/add" class="btn">
         Add Candidate
@@ -145,6 +155,14 @@
                     href="/generate-certificate/{{ candidate[0] }}"
                     class="cert-btn">
                     Certificate
+                </a>
+
+                <br>
+
+                <a
+                    href="/send-offer/{{ candidate[0] }}"
+                    class="email-btn">
+                    Email Offer
                 </a>
 
                 <br>

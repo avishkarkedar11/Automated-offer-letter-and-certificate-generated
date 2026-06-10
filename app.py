@@ -4,6 +4,8 @@ from reportlab.pdfgen import canvas
 import os
 import qrcode
 from PIL import Image
+import smtplib
+from email.message import EmailMessage
 
 app = Flask(__name__)
 
@@ -412,6 +414,79 @@ def generate_certificate(id):
         filename,
         as_attachment=True
     )
+    
+    
+#send email with attachment  
+def send_email_with_attachment(
+    recipient_email,
+    subject,
+    body,
+    attachment_path
+):
+
+    sender_email = "avikedar04@gmail.com"
+    app_password = "tqdj mlcz jktb kecw"
+
+    msg = EmailMessage()
+
+    msg["Subject"] = subject
+    msg["From"] = sender_email
+    msg["To"] = recipient_email
+
+    msg.set_content(body)
+
+    with open(attachment_path, "rb") as file:
+        msg.add_attachment(
+            file.read(),
+            maintype="application",
+            subtype="pdf",
+            filename=attachment_path.split("/")[-1]
+        )
+
+    with smtplib.SMTP_SSL(
+        "smtp.gmail.com",
+        465
+    ) as smtp:
+
+        smtp.login(
+            sender_email,
+            app_password
+        )
+
+        smtp.send_message(msg)
+        
+@app.route("/send-offer/<int:id>")
+def send_offer(id):
+
+    conn = mysql.connector.connect(**db_config)
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "SELECT * FROM candidates WHERE id=%s",
+        (id,)
+    )
+
+    candidate = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    if not candidate:
+        return "Candidate Not Found"
+
+    filename = (
+        f"generated/offer_letters/"
+        f"Offer_Letter_{candidate[1].replace(' ','_')}.pdf"
+    )
+
+    send_email_with_attachment(
+        candidate[2],
+        "Offer Letter",
+        "Please find your offer letter attached.",
+        filename
+    )
+
+    return redirect("/")            
 
 
 # ==========================

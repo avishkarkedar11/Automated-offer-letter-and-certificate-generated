@@ -1,76 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Admin Login</title>
-
-    <style>
-
-        body{
-            font-family: Arial;
-            background:#f4f6f9;
-        }
-
-        .container{
-            width:350px;
-            margin:100px auto;
-            background:white;
-            padding:25px;
-            border-radius:10px;
-            box-shadow:0px 0px 10px rgba(0,0,0,0.1);
-        }
-
-        input{
-            width:100%;
-            padding:10px;
-            margin-bottom:15px;
-        }
-
-        button{
-            width:100%;
-            padding:10px;
-            background:#007bff;
-            color:white;
-            border:none;
-            cursor:pointer;
-        }
-
-        .error{
-            color:red;
-        }
-
-    </style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | Horyzen Technologies</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
-<body>
+<body class="login-body">
 
-<div class="container">
-
-    <h2>Admin Login</h2>
+<div class="glass-card login-card">
+    <div class="login-logo-container">
+        <img src="/static/logo.jpg" alt="Horyzen Technologies" class="login-logo">
+        <h2 class="login-brand-title">HORYZEN</h2>
+        <p class="login-brand-subtitle">Technologies</p>
+    </div>
 
     {% if error %}
-        <p class="error">{{ error }}</p>
+        <div class="login-error">
+            {{ error }}
+        </div>
     {% endif %}
 
     <form method="POST">
+        <div style="margin-bottom: 1.25rem;">
+            <label class="form-label" for="email">Admin Email</label>
+            <input
+                type="email"
+                id="email"
+                name="email"
+                class="form-control"
+                placeholder="email@horyzen.com"
+                required>
+        </div>
 
-        <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            required>
+        <div style="margin-bottom: 1.5rem;">
+            <label class="form-label" for="password">Password</label>
+            <input
+                type="password"
+                id="password"
+                name="password"
+                class="form-control"
+                placeholder="••••••••"
+                required>
+        </div>
 
-        <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            required>
-
-        <button type="submit">
-            Login
+        <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">
+            Access Dashboard
         </button>
-
     </form>
-
 </div>
 
 </body>
